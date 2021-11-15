@@ -1,13 +1,55 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* width */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #edf2f7;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #c4dffc;
+  border-radius: 100vh;
+  border: 3px solid #edf2f7;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+@layer components{
+.currency-icon {
+  @apply relative flex items-center justify-center h-12 w-12 ml-4  bg-blue-300 
+  hover:bg-blue-600 
+  rounded-3xl
+  transition-all duration-300 ease-linear
+  cursor-pointer shadow-lg;
+
+}
+
+.amount {
+  @apply w-3/4 flex items-center justify-start
+  bg-white text-gray-400 px-2 h-9 ml-0 mr-0 rounded-md shadow-md;
+}
+.amount-input {
+  @apply w-full font-sans font-semibold bg-transparent outline-none text-gray-500 placeholder-gray-500 pl-1 rounded;
+}
+
+.destination {
+  @apply  w-28 flex items-center justify-start
+  bg-white text-gray-900 text-2xl px-2 h-9 ml-0 mr-0 rounded-md shadow-md;
+}
+
+.dropdown-item {
+  @apply flex flex-row justify-start items-center px-4 py-2 text-xs text-gray-700 hover:bg-gray-400 hover:text-white;
+}
 }
