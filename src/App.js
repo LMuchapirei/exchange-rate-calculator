@@ -81,7 +81,8 @@ const App=()=>{
   const [toAmount,setToAmount]=useState(0)
 
   const fetchExachangeRates=async()=>{
-    const baseUrl=`https://freecurrencyapi.net/api/v2/latest?apikey=9dd130f0-45e2-11ec-9991-bd23327e06b6&base_currency=${baseCurrency.apiIndentifier}`
+    const key=process.env.REACT_APP_API_KEY
+    const baseUrl=`https://freecurrencyapi.net/api/v2/latest?apikey=${key}&base_currency=${baseCurrency.apiIndentifier}`
     const response=await axios.get(
       baseUrl
     )
