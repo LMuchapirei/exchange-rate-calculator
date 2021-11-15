@@ -40,7 +40,7 @@ return (
   <div className="relative">
     <button 
     onClick={handleDropDown}
-    className="flex items-center block p-2 bg-white bg-gray-100 rounded-md w-44">
+    className="flex items-center  p-2  bg-gray-100 rounded-md w-44">
       <span className="mr-4">
         {props.header} Currency
       </span>
@@ -55,7 +55,9 @@ return (
       {currencies.map(currency=>{
         const FlagIcon=currency.commponent
        return (
-        <div className="dropdown-item" onClick={()=>{
+        <div className="dropdown-item" 
+        key={currency.apiIndentifier}
+        onClick={()=>{
           if(props.type==="base")
             props.baseCurrencyHandler(currency)
           if(props.type==="to")
@@ -75,7 +77,7 @@ const App=()=>{
   const [exchangeRates,setExchangeRates]=useState([])
   const [baseCurrency,setBaseCurrency]=useState(currencies[0])
   const [toCurrency,setToCurrency]=useState(currencies[1])
-  const [_,setBaseAmount]=useState(0)
+  const [,setBaseAmount]=useState(0)
   const [toAmount,setToAmount]=useState(0)
 
   const fetchExachangeRates=async()=>{
