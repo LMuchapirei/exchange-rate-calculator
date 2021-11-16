@@ -3,7 +3,7 @@ const currencies=[
     {
         name:'USD-US Dollar',
         commponent:()=>(<Flags.US className="w-8 h-4"/>),
-        apiIndentifier:'USD'
+        apiIndentifier:'USD',
     },
     {
         name:'EUR-Euro',

@@ -44,12 +44,16 @@
   @apply w-full font-sans font-semibold bg-transparent outline-none text-gray-500 placeholder-gray-500 pl-1 rounded;
 }
 
-.destination {
-  @apply  w-28 flex items-center justify-start
-  bg-white text-gray-900 text-2xl px-2 h-9 ml-0 mr-0 rounded-md shadow-md;
+.quote-container {
+  @apply  w-auto flex items-center justify-start
+  bg-gray-400 text-gray-900 text-3xl px-2 h-9 ml-0 mr-0 rounded-md shadow-md;
 }
 
 .dropdown-item {
   @apply flex flex-row justify-start items-center px-4 py-2 text-xs text-gray-700 hover:bg-gray-400 hover:text-white;
+}
+
+.title-header {
+  @apply text-lg text-gray-600 font-semibold font-serif;
 }
 }

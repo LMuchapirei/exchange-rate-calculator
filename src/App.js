@@ -3,7 +3,7 @@ import { FaMoneyCheck,FaArrowCircleRight} from "react-icons/fa"
 import axios from 'axios'
 import currencies from './constants'
 
-const SideBarIcon=({icon})=>{
+const IconContainer=({icon})=>{
   return (<div className="currency-icon">
       {icon}
   </div>
@@ -12,12 +12,12 @@ const SideBarIcon=({icon})=>{
 
 const AmountEntry=(props)=>(
   <div className="amount">
-    <input type="number" min="1" className="amount-input" placeholder="$1.00" onChange={props.baseCurrencyChanged}/>
+    <input type="number" min="1" className="amount-input" placeholder="0.00" onChange={props.baseCurrencyChanged}/>
   </div>
 )
 
-const Destination=(props)=>{
-  return (<div className="destination">
+const QuoteValue=(props)=>{
+  return (<div className="quote-container m-4">
     {props.amount} 
   </div>
   )
@@ -61,7 +61,7 @@ return (
           if(props.type==="base")
             props.baseCurrencyHandler(currency)
           if(props.type==="to")
-            props.toCurrencyHandler(currency)
+            props.quoteCurrencyHandler(currency)
           handleDropDown()
         }}>
         <FlagIcon/>
@@ -76,9 +76,9 @@ return (
 const App=()=>{
   const [exchangeRates,setExchangeRates]=useState([])
   const [baseCurrency,setBaseCurrency]=useState(currencies[0])
-  const [toCurrency,setToCurrency]=useState(currencies[1])
-  const [,setBaseAmount]=useState(0)
-  const [toAmount,setToAmount]=useState(0)
+  const [quoteCurrency,setQuoteCurrency]=useState(currencies[1])
+  const [baseAmount,setBaseAmount]=useState(1)
+  const [quoteAmount,setQouteAmount]=useState(1)
 
   const fetchExachangeRates=async()=>{
     const key=process.env.REACT_APP_API_KEY
@@ -98,23 +98,22 @@ const App=()=>{
   const setBaseCurrencyHandler=(currency)=>{
     setBaseCurrency(current=>current=currency)
   }
-  const setToCurrencyHandler=(currency)=>{
-    setToCurrency(current=>current=currency)
+  const setQuoteCurrencyHandler=(currency)=>{
+    setQuoteCurrency(current=>current=currency)
   }
   const baseCurrencyChanged=(e)=>{
     const baseValue=e.target.value
-    const destinationRate=exchangeRates.data[toCurrency.apiIndentifier]
+    const destinationRate=exchangeRates.data[quoteCurrency.apiIndentifier]
     const destnationAmount=destinationRate*baseValue
-    setToAmount(curr=>curr=destnationAmount)
+    setQouteAmount(curr=>curr=destnationAmount)
     setBaseAmount(e.target.value)
   }
-  const getExchangeQuote=()=>{
-    
-        return exchangeRates.data ?`1.00 ${baseCurrency.name} =
-        ${exchangeRates.data[toCurrency.apiIndentifier]} ${toCurrency.name} \n
-        1 ${toCurrency.name}  = ${1 /exchangeRates.data[toCurrency.apiIndentifier] } ${baseCurrency.name}`
+  const getExchangeQuote=()=>{    
+        return exchangeRates.data ?`1.00 ${baseCurrency.apiIndentifier} =
+        ${exchangeRates.data[quoteCurrency.apiIndentifier]} ${quoteCurrency.apiIndentifier} and  1.00 ${quoteCurrency.apiIndentifier}  = ${(1 /exchangeRates.data[quoteCurrency.apiIndentifier]).toFixed(5) } ${baseCurrency.apiIndentifier}`
         : `Fetching Data`
   }
+
   return (
     <div className="container w-screen h-screen flex  flex-col items-center  bg-gray-500">
       <div className="w-full h-16 m-0 flex flex-row items-center justify-evenly bg-gray-200 shadow-lg">
@@ -123,40 +122,40 @@ const App=()=>{
       <div className="container w-3/4 h-3/4 mx-auto mt-8 bg-white rounded-lg shadow-xl ">
         <div className="flex flex-row justify-start items-center p-6">
           <div className="text-lg text-gray-500 font-semibold text-opacity-80">Convert</div>
-          <SideBarIcon className="ml-4" icon={<FaMoneyCheck size="24" color="blue"/>}/>
+          <IconContainer className="ml-4" icon={<FaMoneyCheck size="24" color="blue"/>}/>
           </div>
-        <div className="flex flex-row justify-between">
-        <div className="flex flex-col justify-start p-6">
-          <div>
+        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-col justify-start items-start p-6">
+          <div className="title-header">
             Amount  {baseCurrency?baseCurrency.apiIndentifier:'null'}
           </div>
           <AmountEntry  baseCurrencyChanged={baseCurrencyChanged}/>
         </div>
-        <div className="flex flex-col justify-start p-6">
-          <div>
-            Amount {toCurrency?toCurrency.apiIndentifier:'null'}
+        <div className="flex flex-col justify-start items-start p-6">
+          <div className="title-header">
+            Amount {quoteCurrency?quoteCurrency.apiIndentifier:'null'}
           </div>
-          <Destination amount={toAmount.toFixed(3)}/>
+          <QuoteValue amount={quoteAmount.toFixed(5)}/>
         </div>
         </div>
         <div className="flex flex-row">
         <div className="flex flex-col justify-start p-6">
-          <div>
+          <div className="title-header">
             From 
           </div>
          < DropDownEntry type={"base"} header={baseCurrency.apiIndentifier} baseCurrencyHandler={setBaseCurrencyHandler}/>
         </div>
         <div>
-          <SideBarIcon className="ml-4" icon={<FaArrowCircleRight size="24" color="blue"/>}/>
+          <IconContainer className="ml-4" icon={<FaArrowCircleRight size="24" color="blue"/>}/>
         </div>
         <div className="flex flex-col justify-start p-6">
-          <div>
+          <div className="title-header">
             To 
           </div>
-         < DropDownEntry type={"to"} header={toCurrency.apiIndentifier} toCurrencyHandler={setToCurrencyHandler}/>
+         < DropDownEntry type={"to"} header={quoteCurrency.apiIndentifier} quoteCurrencyHandler={setQuoteCurrencyHandler}/>
         </div>
         </div>
-        <div className="text-center text-2xl text-gray-600">
+        <div className="text-center p-6 text-xl font-semibold text-gray-600">
         {
           getExchangeQuote()
         }
