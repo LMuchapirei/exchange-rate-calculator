@@ -10,10 +10,6 @@ REACT_APP_API_KEY=key_value
 To get key vist the following site 
 You obtain a key after creating an account
 https://freecurrencyapi.net/documentation
-I have added the api key in the email with link to github repo
-Replace the key_value with that key
-
-
 3. To start the development server run
 ```
   yarn start
